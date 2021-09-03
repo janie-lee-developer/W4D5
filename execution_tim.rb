@@ -56,13 +56,18 @@ end
     current_sum = list[0] #2, 5, -1, 7, 1, 8   #n(1)
     largest_sum = list[0] #2, 5,  5, 7, 7, 8   #n(1)
 
-    (1...list.length).each do |i|                           #linear                    
-        current_sum = [list[i], current_sum+list[i]].max    #builtin method, max 0(n) Linear
-        largest_sum = [current_sum, largest_sum].max        #builtin method, max 0(n) Linera
+    (1...list.length).each do |i|
+        if list[i] > current_sum + list[i]
+            current_sum = list[i]
+        else
+            current_sum = current_sum + list[i]
+        end
+
+        largest_sum = current_sum if current_sum > largest_sum
     end
-    largest_sum #n(1)
+    largest_sum
  end
-# time complexity: n^2 Polynomial
+# time complexity: O(n)
 
 
 list = [5, 3, -7]
