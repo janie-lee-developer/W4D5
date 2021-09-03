@@ -66,8 +66,8 @@ end
 
 
 def bad_two_sum?(arr, target_sum)
-    (0...arr.length - 1).each do |i|
-        (i+1...arr.length).each do |j|
+    (0...arr.length - 1).each do |i| # O(n)
+        (i+1...arr.length).each do |j| #nested O(n)
             return true if arr[i] + arr[j] == target_sum
         end
     end
@@ -76,6 +76,44 @@ end
 
 #time complexity: O(n^2)
 
-p arr = [0, 1, 5, 7]
-p bad_two_sum?(arr, 6) # => should be true
-p bad_two_sum?(arr, 10) # => should be false
+# arr = [0, 1, 5, 7]
+# p bad_two_sum?(arr, 6) # => should be true
+# p bad_two_sum?(arr, 10) # => should be false
+
+
+
+def okay_two_sum?(arr, target_sum)
+    arr.sort!
+    arr.each_with_index do |n, i|
+        target = target_sum - n
+        unless bsearch(arr[0...i] + arr[i+1..-1], target) == nil
+            return true
+        end
+    end
+    false
+end
+
+def bsearch(arr, target)
+    return nil if arr.empty?
+
+    mid = arr.length / 2
+    left = arr[0...mid]
+    right = arr[mid+1..-1]
+
+    if arr[mid] == target
+        return mid
+    elsif arr[mid] > target
+        return bsearch(left, target)
+    else
+        result = bsearch(right, target)
+        result.nil? ? nil : result + mid + 1
+    end
+end
+
+
+arr = [0, 1, 5, 7]
+p okay_two_sum?(arr, 6) # => should be true
+p okay_two_sum?(arr, 10) # => should be false
+
+
+
